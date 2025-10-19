@@ -234,7 +234,7 @@ const MealPlanForm: React.FC<MealPlanFormProps> = ({ onSubmit, isLoading }) => {
               value={formData.dietaryPreferences}
               onChange={handleChange}
               placeholder="Any food allergies, specific dislikes, or additional requirements..."
-              className="form-textarea spacious"
+              className="form-textarea"
               rows={3}
             />
             <div className="input-hint">Optional: List any foods to avoid or include</div>
@@ -245,7 +245,7 @@ const MealPlanForm: React.FC<MealPlanFormProps> = ({ onSubmit, isLoading }) => {
         <div className="form-actions">
           <button 
             type="submit" 
-            className="submit-button primary"
+            className="submit-button"
             disabled={isLoading}
           >
             {isLoading ? (
