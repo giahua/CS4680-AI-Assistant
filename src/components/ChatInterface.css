@@ -354,4 +354,615 @@
   .input-container {
     padding: 0.8rem 1rem;
   }
+
+/* Meal Plan Form Container */
+/* ===== COMPLETELY REDESIGNED MEAL PLAN FORM ===== */
+
+.meal-plan-form-container {
+  padding: 0;
+  max-width: 100%;
+  background: transparent;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-header .header-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.form-header h2 {
+  margin-bottom: 0.5rem;
+  color: #667eea;
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.form-subtitle {
+  color: #b0b0b0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 300;
+}
+
+/* Form Sections */
+.form-section {
+  margin-bottom: 3rem;
+  padding: 2.5rem;
+  background: rgba(40, 40, 40, 0.6);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.section-header {
+  margin-bottom: 2rem;
+}
+
+.section-header h3 {
+  margin-bottom: 0.5rem;
+  color: #e0e0e0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-header p {
+  color: #b0b0b0;
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 300;
+}
+
+/* Spacious Form Grid */
+.form-grid.spacious {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Form Labels */
+.form-label {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #e0e0e0;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* Form Inputs */
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: rgba(50, 50, 50, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+  background: rgba(50, 50, 50, 0.9);
+  transform: translateY(-2px);
+}
+
+.form-input::placeholder {
+  color: #888;
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.25rem center;
+  background-size: 14px;
+  padding-right: 3rem;
+}
+
+.form-textarea.spacious {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+  padding: 1.25rem;
+}
+
+/* Input Hints */
+.input-hint {
+  margin-top: 0.5rem;
+  color: #888;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.input-hint div {
+  margin-bottom: 0.25rem;
+}
+
+/* Activity Level Options */
+.activity-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-option {
+  display: flex;
+  align-items: flex-start;
+  padding: 1.5rem;
+  background: rgba(50, 50, 50, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.activity-option:hover {
+  border-color: rgba(102, 126, 234, 0.3);
+  background: rgba(50, 50, 50, 0.8);
+}
+
+.activity-option:has(.activity-radio:checked) {
+  border-color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.activity-radio {
+  margin-right: 1rem;
+  margin-top: 0.25rem;
+}
+
+.activity-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.activity-label {
+  color: #e0e0e0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.activity-desc {
+  color: #b0b0b0;
+  font-size: 0.9rem;
+}
+
+/* Calorie Input */
+.calorie-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.calorie-input-container .form-input {
+  padding-right: 4rem;
+}
+
+.calorie-suffix {
+  position: absolute;
+  right: 1.25rem;
+  color: #888;
+  font-weight: 500;
+}
+
+/* Form Actions */
+.form-actions {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.submit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem 3rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 16px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 280px;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+}
+
+.submit-button:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.button-icon {
+  font-size: 1.2rem;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Form Note */
+.form-note {
+  margin-top: 2rem;
+  color: #888;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.form-note ul {
+  margin: 0.5rem 0 0 1rem;
+  padding: 0;
+}
+
+.form-note li {
+  margin-bottom: 0.25rem;
+}
+
+/* ===== UPDATED MEAL PLAN DISPLAY ===== */
+
+.meal-plan-display {
+  padding: 0;
+}
+
+.plan-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plan-header h2 {
+  margin-bottom: 0.5rem;
+  color: #667eea;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.plan-header p {
+  color: #b0b0b0;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.plan-section {
+  margin-bottom: 3rem;
+  padding: 2.5rem;
+  background: rgba(40, 40, 40, 0.6);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plan-section h3 {
+  margin-bottom: 2rem;
+  color: #e0e0e0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+/* TDEE Section */
+.tdee-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.tdee-card {
+  padding: 2rem;
+  background: rgba(50, 50, 50, 0.6);
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.tdee-card:hover {
+  transform: translateY(-2px);
+}
+
+.tdee-card.highlight {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.tdee-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 0.5rem;
+}
+
+.tdee-card.highlight .tdee-value {
+  color: #ffffff;
+}
+
+.tdee-label {
+  color: #b0b0b0;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.tdee-unit {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Macros Section */
+.macros-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.macro-card {
+  padding: 2rem;
+  background: rgba(50, 50, 50, 0.6);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.macro-card:hover {
+  transform: translateY(-2px);
+}
+
+.macro-card.protein {
+  border-left: 4px solid #4CAF50;
+}
+
+.macro-card.carbs {
+  border-left: 4px solid #2196F3;
+}
+
+.macro-card.fat {
+  border-left: 4px solid #FF9800;
+}
+
+.macro-icon {
+  font-size: 2rem;
+}
+
+.macro-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin-bottom: 0.25rem;
+}
+
+.macro-label {
+  color: #b0b0b0;
+  font-size: 1rem;
+}
+
+/* Meals Section */
+.meals-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.meal-card {
+  padding: 2rem;
+  background: rgba(50, 50, 50, 0.6);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.meal-card:hover {
+  transform: translateY(-2px);
+}
+
+.meal-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.meal-icon {
+  font-size: 2rem;
+}
+
+.meal-title h4 {
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.meal-calories {
+  color: #667eea;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.meal-description {
+  color: #b0b0b0;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.meal-items h5 {
+  margin-bottom: 1rem;
+  color: #e0e0e0;
+  font-size: 1.1rem;
+}
+
+.meal-items ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.meal-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.meal-item:last-child {
+  border-bottom: none;
+}
+
+.food-name {
+  color: #e0e0e0;
+  font-weight: 500;
+}
+
+.food-portion {
+  color: #b0b0b0;
+  font-size: 0.9rem;
+}
+
+/* Total Section */
+.total-card {
+  padding: 2.5rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.total-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.total-label {
+  color: #b0b0b0;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.total-macros {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  color: #e0e0e0;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .form-grid.spacious {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .form-section {
+    padding: 2rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .tdee-grid,
+  .macros-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .total-macros {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .submit-button {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .form-header h2 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-section {
+    padding: 1.5rem 1rem;
+  }
+  
+  .form-header {
+    margin-bottom: 2rem;
+    padding: 1.5rem 0;
+  }
+  
+  .form-header h2 {
+    font-size: 1.4rem;
+  }
+  
+  .tdee-value {
+    font-size: 2rem;
+  }
+  
+  .macro-value {
+    font-size: 1.5rem;
+  }
+  
+  .total-value {
+    font-size: 2.5rem;
+  }
+}
 }
