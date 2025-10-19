@@ -13,9 +13,8 @@ export class GeminiService {
     
     this.genAI = new GoogleGenerativeAI(apiKey);
     
-    // Use the correct model name
     this.model = this.genAI.getGenerativeModel({ 
-      model: 'gemini-2.0-flash', // or gemini-2.5-flash if that's what you have
+      model: 'gemini-2.0-flash',
       generationConfig: {
         temperature: 0.7,
         topK: 40,

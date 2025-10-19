@@ -23,7 +23,6 @@ const ChatInterface: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Add example message when component mounts
   useEffect(() => {
     const exampleMessage: ChatMessage = {
       id: 'example',

@@ -77,16 +77,4 @@ IMPORTANT:
 - The response must be parseable as valid JSON
 - Include exactly 4 meals: Breakfast, Lunch, Dinner, Snack`;
   }
-
-  static getExamplePrompt(): string {
-    return this.getMealPlanPrompt({
-      gender: "Male",
-      age: 30,
-      height: "5'10\"",
-      weight: 180,
-      activityLevel: "Moderately Active",
-      calorieDeficit: 500,
-      dietaryPreferences: "Prefer low-carb options"
-    });
-  }
 }

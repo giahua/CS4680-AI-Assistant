@@ -448,6 +448,43 @@
   font-weight: 300;
 }
 
+/* Example Button Styles */
+.example-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+}
+
+.example-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.example-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.example-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 /* Form Sections */
 .form-section {
   margin-bottom: 3rem;
@@ -531,6 +568,38 @@
   border-color: #667eea;
   box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
   background: rgba(50, 50, 50, 0.9);
+}
+
+/* Error Styling */
+.form-input.error,
+.form-select.error,
+.form-textarea.error {
+  border-color: #ff6b6b !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2) !important;
+  background: rgba(255, 107, 107, 0.05) !important;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.error-message::before {
+  content: '⚠️';
+  font-size: 0.7rem;
+}
+
+/* Focus states for error fields */
+.form-input.error:focus,
+.form-select.error:focus,
+.form-textarea.error:focus {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
 }
 
 .form-textarea {
@@ -705,6 +774,7 @@
 .form-note ul {
   margin: 0.5rem 0 0 1rem;
   padding: 0;
+  list-style: none;
 }
 
 .form-note li {
@@ -1036,6 +1106,7 @@
     font-size: 2.5rem;
   }
 }
+
 /* JSON Actions Styles */
 .json-actions {
   display: flex;
