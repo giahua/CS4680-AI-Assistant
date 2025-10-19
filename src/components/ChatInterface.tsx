@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChatMessage } from '../types';
+import { ChatMessage } from '../types/types';
 import { GeminiService } from '../services/geminiService';
 import { PromptTemplateService } from '../services/promptTemplateService';
+import { FileUtils } from '../utils/fileUtils';
 import MealPlanForm from './MealPlanForm';
 import MealPlanDisplay from './MealPlanDisplay';
 import './ChatInterface.css';
@@ -11,7 +12,7 @@ const ChatInterface: React.FC = () => {
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showMealPlanForm, setShowMealPlanForm] = useState(false);
-  const [debugInfo, setDebugInfo] = useState<string>('');
+  const [currentMealPlanData, setCurrentMealPlanData] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -72,95 +73,165 @@ const ChatInterface: React.FC = () => {
   };
 
   const handleMealPlanSubmit = async (formData: any) => {
-  const userMessage: ChatMessage = {
-    id: Date.now().toString(),
-    text: `Generate a meal plan for:\n- ${formData.gender}, ${formData.age} years old\n- ${formData.height} tall, ${formData.weight} lbs\n- ${formData.activityLevel}\n- ${formData.calorieDeficit}-calorie deficit${formData.dietaryPreferences ? `\n- Dietary preferences: ${formData.dietaryPreferences}` : ''}`,
-    isUser: true,
-    timestamp: new Date()
-  };
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      text: `Generate a meal plan for:\n- ${formData.gender}, ${formData.age} years old\n- ${formData.height} tall, ${formData.weight} lbs\n- ${formData.activityLevel}\n- ${formData.calorieDeficit}-calorie deficit${formData.dietaryPreferences ? `\n- Dietary preferences: ${formData.dietaryPreferences}` : ''}`,
+      isUser: true,
+      timestamp: new Date()
+    };
 
-  setMessages(prev => [...prev, userMessage]);
-  setShowMealPlanForm(false);
-  setIsLoading(true);
-
-  try {
-    console.log('Submitting form data:', formData);
-    
-    const aiResponse = await GeminiService.generateMealPlan({
-      gender: formData.gender,
-      age: parseInt(formData.age),
-      height: formData.height,
-      weight: parseInt(formData.weight),
-      activityLevel: formData.activityLevel,
-      calorieDeficit: parseInt(formData.calorieDeficit),
-      dietaryPreferences: formData.dietaryPreferences || ''
-    });
-
-    console.log('Raw AI Response:', aiResponse);
-
-    // Enhanced JSON parsing
-    let jsonString = aiResponse.trim();
-    
-    // Remove markdown code blocks if present
-    if (jsonString.includes('```json')) {
-      jsonString = jsonString.replace(/```json/g, '').replace(/```/g, '').trim();
-    } else if (jsonString.includes('```')) {
-      jsonString = jsonString.replace(/```/g, '').trim();
-    }
-    
-    // Try to extract JSON from the response
-    const jsonMatch = jsonString.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      jsonString = jsonMatch[0];
-    }
-
-    console.log('Cleaned JSON string:', jsonString);
+    setMessages(prev => [...prev, userMessage]);
+    setShowMealPlanForm(false);
+    setIsLoading(true);
 
     try {
-      const mealPlanData = JSON.parse(jsonString);
+      console.log('Submitting form data:', formData);
       
-      // Validate the structure
-      if (mealPlanData.TDEE_Calculation && mealPlanData.Daily_Macro_Targets_Grams && mealPlanData.Meal_Plan) {
-        console.log('Successfully parsed meal plan data:', mealPlanData);
+      const aiResponse = await GeminiService.generateMealPlan({
+        gender: formData.gender,
+        age: parseInt(formData.age),
+        height: formData.height,
+        weight: parseInt(formData.weight),
+        activityLevel: formData.activityLevel,
+        calorieDeficit: parseInt(formData.calorieDeficit),
+        dietaryPreferences: formData.dietaryPreferences || ''
+      });
+
+      console.log('Raw AI Response:', aiResponse);
+
+      // Enhanced JSON parsing
+      let jsonString = aiResponse.trim();
+      
+      // Remove markdown code blocks if present
+      if (jsonString.includes('```json')) {
+        jsonString = jsonString.replace(/```json/g, '').replace(/```/g, '').trim();
+      } else if (jsonString.includes('```')) {
+        jsonString = jsonString.replace(/```/g, '').trim();
+      }
+      
+      // Try to extract JSON from the response
+      const jsonMatch = jsonString.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        jsonString = jsonMatch[0];
+      }
+
+      console.log('Cleaned JSON string:', jsonString);
+
+      try {
+        const mealPlanData = JSON.parse(jsonString);
         
+        // Validate the structure
+        if (mealPlanData.TDEE_Calculation && mealPlanData.Daily_Macro_Targets_Grams && mealPlanData.Meal_Plan) {
+          console.log('Successfully parsed meal plan data:', mealPlanData);
+          
+          // Store the meal plan data for JSON download
+          setCurrentMealPlanData(mealPlanData);
+          
+          // Create the meal plan display message
+          const mealPlanMessage: ChatMessage = {
+            id: (Date.now() + 1).toString(),
+            text: '',
+            isUser: false,
+            timestamp: new Date(),
+            customComponent: <MealPlanDisplay data={mealPlanData} />
+          };
+          
+          // Create the JSON offer message
+          const jsonOfferMessage: ChatMessage = {
+            id: (Date.now() + 2).toString(),
+            text: '📄 Would you like to see the raw JSON data or download it as a file?',
+            isUser: false,
+            timestamp: new Date(),
+            customComponent: (
+              <div className="json-actions">
+                <button 
+                  onClick={() => handleShowRawJSON(mealPlanData)}
+                  className="json-button show-json"
+                >
+                  👁️ Show Raw JSON
+                </button>
+                <button 
+                  onClick={() => handleDownloadJSON(mealPlanData)}
+                  className="json-button download-json"
+                >
+                  💾 Download JSON File
+                </button>
+              </div>
+            )
+          };
+
+          setMessages(prev => [...prev, mealPlanMessage, jsonOfferMessage]);
+        } else {
+          throw new Error('Response missing required fields');
+        }
+      } catch (parseError) {
+        console.error('JSON Parse Error:', parseError);
+        console.log('String that failed to parse:', jsonString);
+        
+        // Show the raw response for debugging
         const aiMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
-          text: '', // We'll use custom display for meal plans
+          text: `I received a response but couldn't parse it as valid JSON. Here's the raw response:\n\n${aiResponse.substring(0, 1000)}${aiResponse.length > 1000 ? '...' : ''}`,
           isUser: false,
-          timestamp: new Date(),
-          customComponent: <MealPlanDisplay data={mealPlanData} />
+          timestamp: new Date()
         };
         setMessages(prev => [...prev, aiMessage]);
-      } else {
-        throw new Error('Response missing required fields');
       }
-    } catch (parseError) {
-      console.error('JSON Parse Error:', parseError);
-      console.log('String that failed to parse:', jsonString);
+    } catch (error: any) {
+      console.error('Error generating meal plan:', error);
       
-      // Show the raw response for debugging
-      const aiMessage: ChatMessage = {
+      const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
-        text: `I received a response but couldn't parse it as valid JSON. Here's the raw response:\n\n${aiResponse.substring(0, 1000)}${aiResponse.length > 1000 ? '...' : ''}`,
+        text: `Error: ${error.message || 'Failed to generate meal plan'}`,
         isUser: false,
         timestamp: new Date()
       };
-      setMessages(prev => [...prev, aiMessage]);
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error: any) {
-    console.error('Error generating meal plan:', error);
+  };
+
+  const handleShowRawJSON = (mealPlanData: any) => {
+    const jsonString = FileUtils.formatJSONForDisplay(mealPlanData);
     
-    const errorMessage: ChatMessage = {
-      id: (Date.now() + 1).toString(),
-      text: `Error: ${error.message || 'Failed to generate meal plan'}`,
+    const jsonMessage: ChatMessage = {
+      id: Date.now().toString(),
+      text: '',
+      isUser: false,
+      timestamp: new Date(),
+      customComponent: (
+        <div className="raw-json-display">
+          <h4>📋 Raw JSON Data (prompt_output.json)</h4>
+          <pre className="json-content">
+            {jsonString}
+          </pre>
+          <button 
+            onClick={() => handleDownloadJSON(mealPlanData)}
+            className="json-button download-json"
+          >
+            💾 Download JSON File
+          </button>
+        </div>
+      )
+    };
+    
+    setMessages(prev => [...prev, jsonMessage]);
+  };
+
+  const handleDownloadJSON = (mealPlanData: any) => {
+    FileUtils.downloadJSON(mealPlanData, 'prompt_output.json');
+    
+    // Add a confirmation message
+    const downloadMessage: ChatMessage = {
+      id: Date.now().toString(),
+      text: '✅ JSON file downloaded as "prompt_output.json"',
       isUser: false,
       timestamp: new Date()
     };
-    setMessages(prev => [...prev, errorMessage]);
-  } finally {
-    setIsLoading(false);
-  }
-};
+    
+    setMessages(prev => [...prev, downloadMessage]);
+  };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {

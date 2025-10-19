@@ -965,4 +965,105 @@
     font-size: 2.5rem;
   }
 }
+/* JSON Actions Styles */
+.json-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.json-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.json-button.show-json {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.json-button.download-json {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+}
+
+.json-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.json-button:active {
+  transform: translateY(0);
+}
+
+/* Raw JSON Display Styles */
+.raw-json-display {
+  padding: 0;
+}
+
+.raw-json-display h4 {
+  margin-bottom: 1rem;
+  color: #667eea;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.json-content {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.5rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #e0e0e0;
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* JSON syntax highlighting for better readability */
+.json-content {
+  color: #f8f8f2;
+}
+
+.json-content .string { color: #a6e22e; }
+.json-content .number { color: #ae81ff; }
+.json-content .boolean { color: #f92672; }
+.json-content .null { color: #f92672; }
+.json-content .key { color: #66d9ef; }
+
+/* Responsive Design for JSON */
+@media (max-width: 768px) {
+  .json-actions {
+    flex-direction: column;
+  }
+  
+  .json-button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .json-content {
+    font-size: 0.75rem;
+    padding: 1rem;
+  }
+}
+
+/* Make sure the JSON display fits well in the message */
+.ai-message .message-content .raw-json-display {
+  max-width: 100%;
+}
 }
